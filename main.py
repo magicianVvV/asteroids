@@ -1,7 +1,9 @@
 import pygame
 from constants import *
 from player import *
-
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+Player.containers = (updatable, drawable)
 def main():
 	pygame.init
 	fps = pygame.time.Clock()
@@ -13,7 +15,9 @@ def main():
 			if event.type == pygame.QUIT:
 				return
 		screen.fill("black")
-		ship.draw(screen)
+		updatable.update(dt)
+		for things in drawable:
+			things.draw(screen)
 		pygame.display.flip()
 		fps.tick(60)
 		dt = (fps.get_time())/1000
