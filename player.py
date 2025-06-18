@@ -11,6 +11,7 @@ class Player(CircleShape):
 		self.shots = shot_group
 		self.updatable = updatable_group
 		self.drawable = drawable_group
+		self.cooldown = 0
 
 	def triangle(self):
 		forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -35,9 +36,11 @@ class Player(CircleShape):
 		self.shots.add(bullet)
 		self.updatable.add(bullet)
 		self.drawable.add(bullet)
+		self.cooldown =  PLAYER_SHOOT_COOLDOWN
 
 	def update(self, dt):
 		keys = pygame.key.get_pressed()
+		self.cooldown -= dt
 
 		if keys[pygame.K_a]:
 			self.rotate(-(dt))
@@ -52,5 +55,8 @@ class Player(CircleShape):
 			self.move(dt)
 
 		if keys[pygame.K_SPACE]:
-			self.shoot()
+			if self.cooldown > 0:
+				return
+			else:
+				self.shoot()
 

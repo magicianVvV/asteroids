@@ -27,6 +27,10 @@ def main():
 			if rocks.collision_detector(ship) == True:
 				print("Game over!")
 				return
+			for bullet in shots:
+				if rocks.collision_detector(bullet) == True:
+					bullet.kill()
+					rocks.split()
 		for things in drawable:
 			things.draw(screen)
 		pygame.display.flip()
